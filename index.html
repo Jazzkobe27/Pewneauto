@@ -1,349 +1,727 @@
 <!doctype html>
-<html lang="pl">
+<html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pewne Auto | Auto na raty w Niemczech dla Polakow</title>
-  <meta name="description" content="Pewne Auto pomaga Polakom w Niemczech znalezc samochod, finansowanie, ubezpieczenie i rejestracje w jednym miejscu.">
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #080806;
-      --panel: #12110d;
-      --panel-2: #1a1710;
-      --gold: #d7a83b;
-      --gold-soft: #f0d892;
-      --line: rgba(255,255,255,.13);
-      --text: #f7f1e4;
-      --muted: #b8afa0;
-      --white: #fff9ed;
-      --ok: #50d590;
-      --shadow: 0 24px 80px rgba(0,0,0,.42);
-      --radius: 8px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: radial-gradient(circle at 72% 0%, rgba(215,168,59,.18), transparent 35%), var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      letter-spacing: 0;
-    }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      background: rgba(8,8,6,.78);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(18px);
-    }
-    .nav {
-      min-height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-    .brand { display: flex; align-items: center; gap: 14px; font-weight: 900; letter-spacing: .02em; }
-    .brand img { width: 58px; height: 58px; object-fit: contain; }
-    .brand span { font-size: 18px; text-transform: uppercase; }
-    .navlinks { display: flex; gap: 24px; align-items: center; color: var(--muted); font-size: 14px; }
-    .navlinks a:hover { color: var(--white); }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 18px;
-      border-radius: var(--radius);
-      border: 1px solid transparent;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s ease;
-      white-space: nowrap;
-      font-size: 14px;
-    }
-    .btn-primary { background: linear-gradient(135deg, #f1cf73, #b9821f); color: #140f06; box-shadow: 0 12px 34px rgba(215,168,59,.25); }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 18px 44px rgba(215,168,59,.32); }
-    .btn-ghost { border-color: var(--line); color: var(--white); background: rgba(255,255,255,.04); }
-    .btn-ghost:hover { border-color: rgba(215,168,59,.55); }
-    .hero {
-      position: relative;
-      min-height: calc(100vh - 78px);
-      display: grid;
-      align-items: center;
-      padding: 58px 0 46px;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(8,8,6,.98) 0%, rgba(8,8,6,.74) 45%, rgba(8,8,6,.22) 100%),
-        url("https://pewneauto.de/wp-content/uploads/2024/10/tlo_fb_pewneAuto_www_noewe.png") center right / cover no-repeat;
-      opacity: .94;
-      z-index: -2;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 170px;
-      background: linear-gradient(transparent, var(--bg));
-      z-index: -1;
-    }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 38px; align-items: center; }
-    .eyebrow { color: var(--gold-soft); font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .11em; margin-bottom: 16px; }
-    h1 { font-size: clamp(42px, 7vw, 82px); line-height: .95; margin: 0 0 20px; max-width: 780px; letter-spacing: 0; }
-    .lead { max-width: 660px; color: #ded4c3; font-size: 19px; margin: 0 0 28px; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 28px; }
-    .proof { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 690px; }
-    .proof-item { border: 1px solid var(--line); background: rgba(14,13,10,.72); border-radius: var(--radius); padding: 14px; backdrop-filter: blur(10px); }
-    .proof-item strong { display: block; color: var(--white); font-size: 21px; }
-    .proof-item span { color: var(--muted); font-size: 13px; }
-    .quick-card { background: rgba(18,17,13,.92); border: 1px solid rgba(215,168,59,.28); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
-    .quick-card h2 { margin: 0 0 8px; font-size: 24px; }
-    .quick-card p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
-    .field { display: grid; gap: 7px; margin-bottom: 11px; }
-    label { color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
-    input, select, textarea {
-      width: 100%;
-      min-height: 45px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,.14);
-      background: #0c0b08;
-      color: var(--white);
-      padding: 11px 12px;
-      font: inherit;
-      outline: none;
-    }
-    textarea { resize: vertical; min-height: 86px; }
-    input:focus, select:focus, textarea:focus { border-color: rgba(215,168,59,.75); box-shadow: 0 0 0 3px rgba(215,168,59,.14); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .submit { width: 100%; margin-top: 4px; }
-    .small { color: var(--muted); font-size: 12px; margin-top: 10px; }
-    section { padding: 72px 0; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
-    .section-head h2 { font-size: clamp(30px, 4vw, 48px); line-height: 1.02; margin: 0; max-width: 720px; }
-    .section-head p { margin: 0; color: var(--muted); max-width: 420px; }
-    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .card { background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; min-height: 190px; }
-    .card b { color: var(--gold-soft); font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
-    .card h3 { margin: 12px 0 8px; font-size: 22px; }
-    .card p { margin: 0; color: var(--muted); }
-    .strip { background: linear-gradient(135deg, rgba(215,168,59,.20), rgba(255,255,255,.05)); border-block: 1px solid rgba(215,168,59,.22); padding: 36px 0; }
-    .strip-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
-    .strip h2 { margin: 0 0 6px; font-size: 30px; }
-    .strip p { margin: 0; color: var(--muted); }
-    .steps { counter-reset: step; display: grid; gap: 12px; }
-    .step { counter-increment: step; display: grid; grid-template-columns: 72px 1fr; gap: 18px; align-items: start; padding: 18px; border-radius: var(--radius); border: 1px solid var(--line); background: rgba(255,255,255,.035); }
-    .step::before { content: counter(step, decimal-leading-zero); color: #121006; background: var(--gold); border-radius: var(--radius); width: 54px; height: 54px; display: grid; place-items: center; font-weight: 900; }
-    .step h3 { margin: 0 0 5px; font-size: 20px; }
-    .step p { margin: 0; color: var(--muted); }
-    .gallery { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
-    .gallery img { width: 100%; aspect-ratio: 1 / 1.2; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); filter: saturate(.94) contrast(1.04); }
-    .faq { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    details { border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255,255,255,.035); padding: 16px 18px; }
-    summary { cursor: pointer; font-weight: 850; }
-    details p { color: var(--muted); margin: 12px 0 0; }
-    footer { border-top: 1px solid var(--line); padding: 30px 0; color: var(--muted); }
-    .foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-    .sticky-cta { display: none; position: fixed; z-index: 40; left: 12px; right: 12px; bottom: 12px; gap: 10px; padding: 10px; border: 1px solid rgba(215,168,59,.26); border-radius: var(--radius); background: rgba(8,8,6,.9); backdrop-filter: blur(14px); box-shadow: var(--shadow); }
-    .sticky-cta .btn { flex: 1; min-height: 48px; }
-    @media (max-width: 920px) {
-      .navlinks { display: none; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .quick-card { max-width: 560px; }
-      .proof, .cards, .gallery, .faq { grid-template-columns: 1fr 1fr; }
-      .section-head, .strip-inner, .foot { align-items: start; flex-direction: column; display: flex; }
-    }
-    @media (max-width: 640px) {
-      .wrap { width: min(100% - 28px, 1160px); }
-      .hero { padding-top: 34px; min-height: auto; }
-      .hero::before { background: linear-gradient(180deg, rgba(8,8,6,.62) 0%, rgba(8,8,6,.92) 52%, rgba(8,8,6,1) 100%), url("https://pewneauto.de/wp-content/uploads/2024/10/tlo_fb_pewneAuto_www_noewe.png") center top / cover no-repeat; }
-      .brand span { font-size: 15px; }
-      .brand img { width: 48px; height: 48px; }
-      .topbar .btn { display: none; }
-      h1 { font-size: 43px; }
-      .lead { font-size: 16px; }
-      .proof, .cards, .gallery, .faq, .form-row { grid-template-columns: 1fr; }
-      section { padding: 54px 0; }
-      .sticky-cta { display: flex; }
-      body { padding-bottom: 82px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pewne Auto - Service nach dem Autokauf</title>
+<meta name="description" content="Pewne Auto begleitet Bestandskunden nach dem Autokauf bei Versicherung, Steuern, Foerderungen, Gewerbe und weiteren finanziellen Themen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#050503;
+    --ink:#0d0b07;
+    --panel:#14110b;
+    --panel-2:#1b160d;
+    --gold:#ffd400;
+    --gold-2:#f1b51d;
+    --cream:#fff6d6;
+    --muted:#c9b982;
+    --soft:#8f8058;
+    --line:rgba(255,212,0,.24);
+    --line-strong:rgba(255,212,0,.48);
+    --green:#8fbf63;
+    --blue:#72a8ff;
+    --red:#e56b4a;
+    --radius:8px;
+    --shadow:0 28px 80px rgba(0,0,0,.48);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      linear-gradient(90deg, rgba(255,212,0,.11) 1px, transparent 1px) 0 0/72px 72px,
+      linear-gradient(180deg,#050503 0%,#0d0b07 48%,#050503 100%);
+    color:var(--cream);
+    font-family:Manrope,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+      linear-gradient(90deg,rgba(5,5,3,.95) 0%,rgba(5,5,3,.66) 48%,rgba(5,5,3,.9) 100%),
+      url("https://pewneauto.de/wp-content/uploads/2024/10/tlo_fb_pewneAuto_www_noewe.png") right top/980px auto no-repeat;
+    opacity:.72;
+    z-index:-2;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(180deg,transparent 0%,rgba(5,5,3,.82) 72%,#050503 100%);
+    z-index:-1;
+  }
+  a{color:inherit}
+  button,input,select,textarea{font:inherit}
+  .wrap{width:min(1120px,calc(100% - 36px));margin:0 auto}
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:30;
+    background:rgba(5,5,3,.84);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,212,0,.18);
+  }
+  .nav{
+    min-height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    text-decoration:none;
+    min-width:max-content;
+  }
+  .brand-badge{
+    width:54px;
+    height:46px;
+    border:2px solid var(--gold);
+    border-radius:8px;
+    display:grid;
+    place-items:center;
+    color:var(--gold);
+    font-family:"Barlow Condensed",Manrope,sans-serif;
+    font-size:26px;
+    font-weight:800;
+    line-height:1;
+    box-shadow:0 0 0 5px rgba(255,212,0,.08);
+  }
+  .brand strong{
+    display:block;
+    font-family:"Barlow Condensed",Manrope,sans-serif;
+    color:var(--gold);
+    font-size:24px;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+  }
+  .brand span{display:block;color:var(--muted);font-size:12px;font-weight:700}
+  .nav-links{display:flex;align-items:center;gap:22px;color:var(--muted);font-size:14px;font-weight:700}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--gold)}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:46px;
+    padding:0 18px;
+    border:1px solid transparent;
+    border-radius:var(--radius);
+    background:none;
+    color:inherit;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+    transition:transform .18s ease, background .18s ease, border-color .18s ease;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:var(--gold);color:#090805;box-shadow:0 16px 38px rgba(255,212,0,.18)}
+  .btn-secondary{border-color:var(--line-strong);background:rgba(255,212,0,.06);color:var(--gold)}
+  .hero{
+    min-height:calc(100vh - 76px);
+    display:grid;
+    align-items:center;
+    padding:58px 0 36px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(320px,420px);
+    gap:42px;
+    align-items:center;
+  }
+  .kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:var(--gold);
+    font-size:12px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    margin:0 0 18px;
+  }
+  .kicker::before{content:"";width:34px;height:2px;background:var(--gold)}
+  h1,h2,h3{
+    margin:0;
+    font-family:"Barlow Condensed",Manrope,sans-serif;
+    letter-spacing:0;
+  }
+  h1{
+    max-width:820px;
+    color:var(--gold);
+    font-size:clamp(46px,7vw,88px);
+    line-height:.94;
+    text-transform:uppercase;
+  }
+  h1 span{display:block;color:#fff8d5}
+  .lead{
+    max-width:700px;
+    margin:22px 0 0;
+    color:var(--cream);
+    font-size:19px;
+    line-height:1.72;
+  }
+  .lead strong{color:var(--gold)}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .promise-row{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+    margin-top:30px;
+    max-width:780px;
+  }
+  .promise{
+    border:1px solid var(--line);
+    background:rgba(20,17,11,.72);
+    border-radius:var(--radius);
+    padding:14px;
+    min-height:94px;
+  }
+  .promise b{display:block;color:var(--gold);font-size:14px;margin-bottom:6px}
+  .promise span{display:block;color:var(--muted);font-size:13px;line-height:1.45}
+  .side-panel{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:linear-gradient(180deg,rgba(255,212,0,.11),rgba(20,17,11,.88));
+    box-shadow:var(--shadow);
+    padding:22px;
+  }
+  .side-panel h2{font-size:34px;color:var(--gold);line-height:1}
+  .side-panel p{color:var(--muted);line-height:1.6;margin:12px 0 0}
+  .mini-list{display:grid;gap:10px;margin-top:18px}
+  .mini-list div{
+    border:1px solid rgba(255,212,0,.2);
+    background:rgba(5,5,3,.46);
+    border-radius:var(--radius);
+    padding:12px;
+    color:var(--cream);
+    font-size:14px;
+  }
+  section{padding:72px 0}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:26px;
+    margin-bottom:24px;
+  }
+  .section-head h2{font-size:clamp(34px,5vw,58px);line-height:.98;color:var(--gold);text-transform:uppercase}
+  .section-head p{max-width:460px;margin:0;color:var(--muted);line-height:1.65}
+  .option-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+  }
+  .option-card{
+    position:relative;
+    min-height:236px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:linear-gradient(180deg,rgba(255,212,0,.08),rgba(255,255,255,.035));
+    color:inherit;
+    text-align:left;
+    padding:18px;
+    cursor:pointer;
+    overflow:hidden;
+    transition:transform .18s ease,border-color .18s ease,background .18s ease;
+  }
+  .option-card:hover,.option-card:focus-visible{
+    transform:translateY(-2px);
+    border-color:var(--gold);
+    background:linear-gradient(180deg,rgba(255,212,0,.16),rgba(255,255,255,.04));
+    outline:none;
+  }
+  .option-card::after{
+    content:attr(data-no);
+    position:absolute;
+    right:16px;
+    bottom:8px;
+    color:rgba(255,212,0,.12);
+    font-family:"Barlow Condensed",Manrope,sans-serif;
+    font-size:92px;
+    font-weight:800;
+    line-height:1;
+  }
+  .option-icon{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    color:var(--gold);
+    font-weight:900;
+    margin-bottom:18px;
+  }
+  .option-card h3{position:relative;z-index:1;color:var(--cream);font-size:30px;line-height:1;text-transform:uppercase}
+  .option-card p{position:relative;z-index:1;margin:12px 0 0;color:var(--muted);font-size:15px;line-height:1.56}
+  .choice-cta{
+    margin-top:18px;
+    border:1px solid rgba(255,212,0,.2);
+    border-radius:var(--radius);
+    padding:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    background:rgba(5,5,3,.5);
+  }
+  .choice-cta strong{display:block;color:var(--gold);font-size:18px}
+  .choice-cta span{display:block;color:var(--muted);margin-top:3px}
+  .flow{
+    display:none;
+    border-top:1px solid rgba(255,212,0,.16);
+    background:linear-gradient(180deg,rgba(255,212,0,.05),rgba(5,5,3,0));
+  }
+  .flow.active{display:block}
+  .flow-shell{
+    display:grid;
+    grid-template-columns:minmax(260px,360px) minmax(0,1fr);
+    gap:24px;
+    align-items:start;
+  }
+  .flow-copy{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:rgba(20,17,11,.72);
+    padding:20px;
+    position:sticky;
+    top:98px;
+  }
+  .flow-copy h2{font-size:42px;color:var(--gold);line-height:.98}
+  .flow-copy p{color:var(--muted);line-height:1.66;margin:12px 0 0}
+  .tag{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;color:var(--gold);padding:6px 10px;font-size:12px;font-weight:900;margin-bottom:12px}
+  .form-panel{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:rgba(12,10,6,.84);
+    padding:20px;
+  }
+  .questions{
+    display:grid;
+    gap:14px;
+  }
+  .field{display:grid;gap:8px}
+  label{color:var(--gold);font-size:13px;font-weight:900}
+  input,select,textarea{
+    width:100%;
+    border:1px solid rgba(255,212,0,.22);
+    border-radius:var(--radius);
+    background:#080704;
+    color:var(--cream);
+    min-height:46px;
+    padding:11px 12px;
+    outline:none;
+  }
+  textarea{min-height:96px;resize:vertical}
+  input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,212,0,.12)}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .full{grid-column:1 / -1}
+  .radio-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  .radio-grid label{
+    min-height:44px;
+    border:1px solid rgba(255,212,0,.2);
+    border-radius:var(--radius);
+    padding:10px;
+    color:var(--cream);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,.035);
+    font-size:14px;
+  }
+  .submit-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin-top:18px;
+  }
+  .fineprint{color:var(--soft);font-size:12px;line-height:1.5}
+  .summary{
+    display:none;
+    margin-top:18px;
+    border:1px solid rgba(143,191,99,.45);
+    border-radius:var(--radius);
+    background:rgba(143,191,99,.08);
+    padding:16px;
+  }
+  .summary.show{display:block}
+  .summary h3{color:var(--green);font-size:26px}
+  .summary p{color:var(--muted);line-height:1.55}
+  .faq-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .faq{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:rgba(20,17,11,.62);
+    padding:18px;
+  }
+  .faq h3{font-size:24px;color:var(--cream)}
+  .faq p{color:var(--muted);line-height:1.55;margin:10px 0 0}
+  footer{border-top:1px solid rgba(255,212,0,.16);padding:28px 0;color:var(--soft)}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .sticky{
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    z-index:40;
+    display:none;
+    gap:10px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:rgba(5,5,3,.9);
+    backdrop-filter:blur(14px);
+    padding:10px;
+    box-shadow:var(--shadow);
+  }
+  body.scrolled .sticky{display:flex}
+  .sticky .btn{flex:1}
+  @media (max-width:920px){
+    .nav-links a:not(.btn){display:none}
+    .hero-grid,.flow-shell{grid-template-columns:1fr}
+    .side-panel,.flow-copy{position:static}
+    .option-grid,.faq-grid{grid-template-columns:1fr 1fr}
+    .promise-row{grid-template-columns:1fr}
+    .section-head,.choice-cta,.submit-row{display:grid;align-items:start}
+  }
+  @media (max-width:640px){
+    .wrap{width:min(100% - 28px,1120px)}
+    .brand span{display:none}
+    .nav{min-height:68px}
+    .hero{padding:36px 0 22px}
+    .hero-grid{gap:24px}
+    h1{font-size:48px}
+    .lead{font-size:16px}
+    section{padding:52px 0}
+    .option-grid,.faq-grid,.grid-2,.radio-grid{grid-template-columns:1fr}
+    .full{grid-column:auto}
+    .option-card{min-height:210px}
+    .sticky{display:flex}
+    body{padding-bottom:82px}
+  }
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="Pewne Auto">
-        <img src="https://pewneauto.de/wp-content/uploads/2021/12/logo_nowe-2.png" alt="Pewne Auto logo">
-        <span>Pewne Auto</span>
-      </a>
-      <nav class="navlinks" aria-label="Nawigacja">
-        <a href="#uslugi">Uslugi</a>
-        <a href="#proces">Proces</a>
-        <a href="#klienci">Klienci</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <a class="btn btn-primary" href="#kontakt">Bezpłatna konsultacja</a>
-    </div>
-  </header>
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#start" aria-label="Pewne Auto">
+      <span class="brand-badge">PA</span>
+      <span>
+        <strong>Pewne Auto</strong>
+        <span>Service nach dem Autokauf</span>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Navigation">
+      <a href="#auswahl">Auswahl</a>
+      <a href="#fragen">Fragen</a>
+      <a href="#sicherheit">Hinweise</a>
+      <a class="btn btn-primary" href="#auswahl">Starten</a>
+    </nav>
+  </div>
+</header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="wrap hero-grid">
+<main id="start">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">Danke fuer Ihr Vertrauen</p>
+        <h1>Ihr Auto war der erste Schritt. <span>Jetzt schauen wir auf Sie.</span></h1>
+        <p class="lead">
+          Danke, dass Sie sich fuer Pewne Auto entschieden haben. Unsere Unterstuetzung begleitet Sie ab jetzt auch bei den Themen, die nach dem Autokauf wichtig werden: Versicherung, Steuern, Foerderungen, Krankenkasse, Gewerbe und Ordnung in Ihren Unterlagen.
+          <strong>Die erste Sichtung kostet Sie keinen Cent.</strong>
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#auswahl">Was ist fuer mich wichtig?</a>
+          <button class="btn btn-secondary" type="button" data-topic="alles">Gemeinsam alles anschauen</button>
+        </div>
+        <div class="promise-row" aria-label="Was Sie erwartet">
+          <div class="promise"><b>Sehen</b><span>Sie auf einen Blick, welche Wege nach dem Autokauf offen sind.</span></div>
+          <div class="promise"><b>Hoeren</b><span>Sie in einem kurzen Gespraech, was zu Ihrer Situation passen kann.</span></div>
+          <div class="promise"><b>Spueren</b><span>Sie mehr Ruhe, weil jemand mitdenkt und die naechsten Schritte sortiert.</span></div>
+        </div>
+      </div>
+      <aside class="side-panel">
+        <h2>Was passiert hier?</h2>
+        <p>Sie waehlen ein Thema aus. Danach stellen wir ein paar einfache Fragen. So verstehen wir schneller, wo wir Sie weiter unterstuetzen koennen.</p>
+        <div class="mini-list">
+          <div>Keine Zahlung fuer die erste Sichtung.</div>
+          <div>Keine komplizierten Fachwoerter.</div>
+          <div>Kein Druck. Erst Klarheit, dann Entscheidung.</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="auswahl">
+    <div class="wrap">
+      <div class="section-head">
         <div>
-          <div class="eyebrow">Auto, finansowanie, ubezpieczenie i rejestracja</div>
-          <h1>Samochód na raty w Niemczech bez zgadywania.</h1>
-          <p class="lead">Pewne Auto prowadzi Polaków w Niemczech przez zakup auta od pierwszej rozmowy do odbioru kluczy. Sprawdzamy możliwości finansowania, dobieramy oferty i pilnujemy formalności.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#kontakt">Sprawdzam swoje możliwości</a>
-            <a class="btn btn-ghost" href="https://wa.me/qr/KWPAKCQ6JUOHF1" target="_blank" rel="noopener">Napisz na WhatsApp</a>
-          </div>
-          <div class="proof" aria-label="Najważniejsze korzyści">
-            <div class="proof-item"><strong>3 dokumenty</strong><span>odcinek wypłaty, dowód, meldunek</span></div>
-            <div class="proof-item"><strong>1 opiekun</strong><span>kontakt po polsku od startu do odbioru</span></div>
-            <div class="proof-item"><strong>Komplet</strong><span>auto, raty, ubezpieczenie, rejestracja</span></div>
-          </div>
+          <p class="kicker">Ihre Moeglichkeiten</p>
+          <h2>Was ist gerade am wichtigsten?</h2>
         </div>
-
-        <form class="quick-card" id="leadForm">
-          <h2>Szybka kwalifikacja</h2>
-          <p>Wypełnij krótko, a wiadomość otworzy się gotowa do wysłania na WhatsApp.</p>
-          <div class="form-row">
-            <div class="field"><label for="name">Imię</label><input id="name" name="name" autocomplete="name" required></div>
-            <div class="field"><label for="city">Miasto</label><input id="city" name="city" autocomplete="address-level2" required></div>
-          </div>
-          <div class="form-row">
-            <div class="field"><label for="budget">Budżet / rata</label><select id="budget" name="budget"><option>do 250 EUR</option><option>250-350 EUR</option><option>350-500 EUR</option><option>powyżej 500 EUR</option></select></div>
-            <div class="field"><label for="job">Praca</label><select id="job" name="job"><option>Umowa o pracę</option><option>Gewerbe</option><option>Inna sytuacja</option></select></div>
-          </div>
-          <div class="field"><label for="message">Czego szukasz?</label><textarea id="message" name="message" placeholder="Np. kombi rodzinne, SUV, auto do pracy..."></textarea></div>
-          <button class="btn btn-primary submit" type="submit">Wyślij zapytanie</button>
-          <div class="small">Bez zobowiązań. Rozmowa po polsku.</div>
-        </form>
+        <p>Waehlen Sie einen Punkt aus. Danach kommen nur ein paar passende Fragen, damit wir gemeinsam den ersten sinnvollen Schritt finden.</p>
       </div>
-    </section>
-
-    <section id="uslugi">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Funnel, który odpowiada na realne obawy przed zakupem auta.</h2>
-          <p>Najpierw zaufanie i jasny proces, potem konkretna oferta. Bez przesuwania klienta po przypadkowych podstronach.</p>
-        </div>
-        <div class="cards">
-          <article class="card"><b>01</b><h3>Auto na raty</h3><p>Weryfikujemy możliwości finansowania i dopasowujemy ratę do sytuacji klienta w Niemczech.</p></article>
-          <article class="card"><b>02</b><h3>Pakiet komplet</h3><p>Auto, raty, ubezpieczenie i rejestracja w jednym miejscu, z jednym kontaktem po polsku.</p></article>
-          <article class="card"><b>03</b><h3>Leasing i Gewerbe</h3><p>Dla firm i osób prowadzących działalność: bardziej biznesowy wariant finansowania.</p></article>
-          <article class="card"><b>04</b><h3>Dobór samochodu</h3><p>Nie tylko formularz. Najpierw potrzeba, budżet i styl jazdy, dopiero potem lista propozycji.</p></article>
-          <article class="card"><b>05</b><h3>Ubezpieczenie</h3><p>Pomoc w dobraniu ochrony, aby klient nie odbierał auta z kolejnym problemem do rozwiązania.</p></article>
-          <article class="card"><b>06</b><h3>Rejestracja</h3><p>Wsparcie przy formalnościach, niemieckich zasadach i kolejnych krokach po zakupie.</p></article>
-        </div>
+      <div class="option-grid">
+        <button class="option-card" type="button" data-topic="versicherung" data-no="01">
+          <span class="option-icon">S</span>
+          <h3>Schutz passend machen</h3>
+          <p>Wir schauen, ob Ihr Auto richtig abgesichert ist und ob Sie fuer Anmeldung oder Aenderung eine eVB brauchen.</p>
+        </button>
+        <button class="option-card" type="button" data-topic="steuern" data-no="02">
+          <span class="option-icon">€</span>
+          <h3>Geld bei der Steuer finden</h3>
+          <p>Wir pruefen mit Ihnen, ob es bei Ihrer Steuer Dinge gibt, die Sie nutzen koennen.</p>
+        </button>
+        <button class="option-card" type="button" data-topic="vorsorge" data-no="03">
+          <span class="option-icon">F</span>
+          <h3>Sich und die Familie schuetzen</h3>
+          <p>Wir schauen, welche Versicherungen in Ihrer Situation wirklich Sinn machen und welche nicht.</p>
+        </button>
+        <button class="option-card" type="button" data-topic="wechsel" data-no="04">
+          <span class="option-icon">A</span>
+          <h3>Das naechste Auto planen</h3>
+          <p>Wenn Ihr jetziges Auto nicht mehr passt, pruefen wir gemeinsam, welche Moeglichkeiten Sie haben.</p>
+        </button>
+        <button class="option-card" type="button" data-topic="firma" data-no="05">
+          <span class="option-icon">B</span>
+          <h3>Ihre Firma besser aufstellen</h3>
+          <p>Wenn Sie selbststaendig sind oder eine Firma haben, schauen wir, welche Loesungen zu Ihrem Alltag passen.</p>
+        </button>
+        <button class="option-card" type="button" data-topic="alles" data-no="06">
+          <span class="option-icon">O</span>
+          <h3>Einmal alles sortieren</h3>
+          <p>Sie wissen noch nicht genau, wo Sie anfangen sollen? Dann finden wir gemeinsam den ersten sinnvollen Schritt.</p>
+        </button>
       </div>
-    </section>
-
-    <div class="strip">
-      <div class="wrap strip-inner">
-        <div><h2>Masz dochód w Niemczech? Sprawdź, jakie auto możesz mieć.</h2><p>Najlepszy następny krok to krótka rozmowa, nie przeglądanie kolejnych ofert w ciemno.</p></div>
-        <a class="btn btn-primary" href="#kontakt">Zaczynam rozmowę</a>
+      <div class="choice-cta">
+        <div>
+          <strong>Welchen Punkt picken Sie sich zuerst heraus?</strong>
+          <span>Ein Klick reicht. Danach oeffnen sich die passenden Fragen.</span>
+        </div>
+        <a class="btn btn-secondary" href="#fragen">Zu den Fragen</a>
       </div>
     </div>
+  </section>
 
-    <section id="proces">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Prosty proces od zapytania do kluczyków.</h2>
-          <p>Układ strony prowadzi klienta przez decyzję: zrozumienie, kwalifikacja, oferta, odbiór auta.</p>
-        </div>
-        <div class="steps">
-          <article class="step"><div><h3>Rozmowa i potrzeby</h3><p>Budżet, typ auta, miasto, dokumenty i realny termin zakupu.</p></div></article>
-          <article class="step"><div><h3>Wstępna kwalifikacja</h3><p>Sprawdzamy, czy temat ma sens i jakie finansowanie może pasować.</p></div></article>
-          <article class="step"><div><h3>Oferta samochodu</h3><p>Klient dostaje propozycje dopasowane do raty, celu i stylu jazdy.</p></div></article>
-          <article class="step"><div><h3>Formalności i odbiór</h3><p>Wsparcie przy umowie, ubezpieczeniu, rejestracji i odbiorze auta.</p></div></article>
+  <section class="flow" id="fragen">
+    <div class="wrap flow-shell">
+      <aside class="flow-copy">
+        <span class="tag" id="topicTag">Auswahl</span>
+        <h2 id="topicTitle">Waehlen Sie oben ein Thema aus.</h2>
+        <p id="topicIntro">Danach stellen wir Ihnen ein paar einfache Fragen. Ihre Antworten helfen uns, den naechsten Schritt gut vorzubereiten.</p>
+      </aside>
+      <div class="form-panel">
+        <form id="serviceForm">
+          <input type="hidden" name="topic" id="topicInput" value="">
+          <div class="grid-2">
+            <div class="field">
+              <label for="name">Ihr Name</label>
+              <input id="name" name="name" autocomplete="name" placeholder="z. B. Anna Kowalska" required>
+            </div>
+            <div class="field">
+              <label for="phone">Telefon oder WhatsApp</label>
+              <input id="phone" name="phone" autocomplete="tel" placeholder="z. B. +49 160 ..." required>
+            </div>
+          </div>
+          <div class="questions" id="questions"></div>
+          <div class="submit-row">
+            <button class="btn btn-primary" type="submit">Antworten vorbereiten</button>
+            <span class="fineprint">Ihre Angaben werden erst uebergeben, wenn Sie danach WhatsApp oeffnen.</span>
+          </div>
+        </form>
+        <div class="summary" id="summary">
+          <h3>Der erste Schritt ist vorbereitet.</h3>
+          <p>Wir haben Ihre Antworten als Nachricht zusammengestellt. Oeffnen Sie WhatsApp und senden Sie die Nachricht an Pewne Auto.</p>
+          <a class="btn btn-primary" id="whatsAppLink" href="https://wa.me/qr/KWPAKCQ6JUOHF1" target="_blank" rel="noopener">WhatsApp oeffnen</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="klienci">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Auta wybrane przez klientów.</h2>
-          <p>Prawdziwe zdjęcia budują więcej zaufania niż ogólny tekst o jakości.</p>
+  <section id="sicherheit">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Wichtig zu wissen</p>
+          <h2>Klarheit vor Entscheidung.</h2>
         </div>
-        <div class="gallery">
-          <img src="https://pewneauto.de/wp-content/uploads/2023/06/346132432_1350984562425943_7723838361461357668_n-768x1079.jpg" alt="Auto klienta Pewne Auto" loading="lazy">
-          <img src="https://pewneauto.de/wp-content/uploads/2023/06/356552922_792924845537797_6865336506478368786_n-768x1091.jpg" alt="Auto klienta Pewne Auto" loading="lazy">
-          <img src="https://pewneauto.de/wp-content/uploads/2023/06/356273412_1052757982756836_8205772484576895816_n-768x1091.jpg" alt="Auto klienta Pewne Auto" loading="lazy">
-          <img src="https://pewneauto.de/wp-content/uploads/2023/06/356650615_254716880527386_3078978050742176812_n-768x960.jpg" alt="Auto klienta Pewne Auto" loading="lazy">
-        </div>
+        <p>Wir geben keine leeren Versprechen. Wir schauen gemeinsam, welche Moeglichkeiten zu Ihrer Situation passen koennen.</p>
       </div>
-    </section>
-
-    <section id="faq">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Najczęstsze pytania przed pierwszą rozmową.</h2>
-          <p>Krótko, konkretnie, bez obiecywania decyzji kredytowej przed sprawdzeniem sytuacji.</p>
+      <div class="faq-grid">
+        <div class="faq">
+          <h3>Kostet die erste Sichtung etwas?</h3>
+          <p>Nein. Die erste Sichtung Ihrer Situation kostet Sie keinen Cent. Danach entscheiden Sie in Ruhe, ob und wie es weitergeht.</p>
         </div>
         <div class="faq">
-          <details open><summary>Jakie dokumenty są potrzebne?</summary><p>Najczęściej: ostatni odcinek wypłaty, dowód osobisty i niemiecki meldunek. Przy Gewerbe sytuację sprawdzamy indywidualnie.</p></details>
-          <details><summary>Czy mogę dostać auto z ratą poniżej 250 EUR?</summary><p>Czasem tak, ale zależy to od auta, wkładu własnego, okresu finansowania i zdolności. Dlatego zaczynamy od kwalifikacji.</p></details>
-          <details><summary>Czy pomagacie z ubezpieczeniem i rejestracją?</summary><p>Tak. Ideą pakietu komplet jest zdjęcie z klienta najtrudniejszych formalności po wyborze auta.</p></details>
-          <details><summary>Czy rozmowa coś kosztuje?</summary><p>Pierwsza konsultacja jest bez zobowiązań. Celem jest sprawdzenie, czy zakup ma sens i jaki wariant będzie rozsądny.</p></details>
+          <h3>Geht es nur um das Auto?</h3>
+          <p>Nein. Das Auto war der Start. Danach koennen Versicherung, Steuern, Foerderungen, Krankenkasse oder Gewerbe wichtig werden.</p>
+        </div>
+        <div class="faq">
+          <h3>Bekomme ich garantiert Geld?</h3>
+          <p>Nein, eine Garantie waere nicht serioes. Wir pruefen, welche Vorteile oder Entlastungen in Ihrer Lage moeglich sein koennen.</p>
         </div>
       </div>
-    </section>
-
-    <section id="kontakt">
-      <div class="wrap">
-        <div class="quick-card">
-          <div class="section-head" style="margin-bottom:18px">
-            <h2>Gotowy na pierwszą ofertę?</h2>
-            <p>Wyślij wiadomość z formularza u góry albo przejdź od razu na WhatsApp.</p>
-          </div>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="https://wa.me/qr/KWPAKCQ6JUOHF1" target="_blank" rel="noopener">Otwórz WhatsApp</a>
-            <a class="btn btn-ghost" href="#top">Wróć do formularza</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap foot">
-      <div><strong>Pewne Auto</strong><br>Samochód na raty w Niemczech dla Polaków.</div>
-      <div><a href="https://pewneauto.de/" target="_blank" rel="noopener">pewneauto.de</a> · <a href="https://www.instagram.com/pewneautode/" target="_blank" rel="noopener">Instagram</a></div>
     </div>
-  </footer>
+  </section>
+</main>
 
-  <div class="sticky-cta" aria-label="Szybki kontakt">
-    <a class="btn btn-ghost" href="#top">Formularz</a>
-    <a class="btn btn-primary" href="https://wa.me/qr/KWPAKCQ6JUOHF1" target="_blank" rel="noopener">WhatsApp</a>
+<div class="sticky">
+  <a class="btn btn-secondary" href="#auswahl">Auswahl</a>
+  <button class="btn btn-primary" type="button" data-topic="alles">Alles sortieren</button>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Pewne Auto - Service nach dem Autokauf.</span>
+    <span>Auto · Versicherung · Steuern · Foerderungen · Gewerbe</span>
   </div>
+</footer>
 
-  <script>
-    const form = document.getElementById('leadForm');
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const data = new FormData(form);
-      const text = [
-        'Cześć Pewne Auto, chcę sprawdzić auto na raty.',
-        'Imię: ' + data.get('name'),
-        'Miasto: ' + data.get('city'),
-        'Budżet/rata: ' + data.get('budget'),
-        'Praca: ' + data.get('job'),
-        'Szukam: ' + (data.get('message') || 'do ustalenia')
-      ].join('\n');
-      window.open('https://wa.me/qr/KWPAKCQ6JUOHF1?text=' + encodeURIComponent(text), '_blank', 'noopener');
-    });
-  </script>
+<script>
+  const topics = {
+    versicherung: {
+      tag: "Versicherung & eVB",
+      title: "Schutz passend machen",
+      intro: "Damit wir schnell verstehen, was Sie brauchen: Anmeldung, eVB, neue Police oder ein Blick auf den aktuellen Schutz.",
+      questions: [
+        ["need", "Was brauchen Sie gerade am ehesten?", ["eVB fuer Anmeldung", "Versicherung pruefen", "Versicherung wechseln", "Ich bin unsicher"]],
+        ["car", "Um welches Auto geht es?", "text", "z. B. VW Golf, Baujahr 2021"],
+        ["start", "Ab wann soll der Schutz passen?", "text", "z. B. sofort, naechsten Monat, bei Anmeldung"],
+        ["good", "Woran merken Sie, dass wir Ihnen gut geholfen haben?", "textarea", "z. B. wenn ich weiss, was richtig ist und was es kostet"]
+      ]
+    },
+    steuern: {
+      tag: "Steuern pruefen",
+      title: "Geld bei der Steuer finden",
+      intro: "Wir schauen einfach, ob eine Steuerpruefung fuer Sie Sinn macht und welche Unterlagen schon da sind.",
+      questions: [
+        ["done", "Haben Sie in Deutschland schon einmal eine Steuererklaerung gemacht?", ["Ja", "Nein", "Ich weiss es nicht genau"]],
+        ["goal", "Was waere fuer Sie am besten?", ["Geld zurueckbekommen", "Ordnung schaffen", "Wissen, ob es sich lohnt", "Alles einmal pruefen"]],
+        ["work", "Wie arbeiten Sie gerade?", ["Angestellt", "Selbststaendig", "Beides", "Aktuell anders"]],
+        ["papers", "Welche Unterlagen haben Sie schon?", "textarea", "z. B. Lohnabrechnung, Bescheide, Fahrkosten, Versicherungen"],
+        ["help", "Woran wuerden Sie merken, dass wir Ihnen wirklich geholfen haben?", "textarea", "z. B. wenn ich weiss, was ich einreichen kann"]
+      ]
+    },
+    vorsorge: {
+      tag: "Weitere Versicherungen",
+      title: "Sich und die Familie schuetzen",
+      intro: "Wir sortieren gemeinsam, was wirklich wichtig ist und was in Ihrer Lage nicht noetig wirkt.",
+      questions: [
+        ["who", "Wen moechten Sie zuerst schuetzen?", ["Mich", "Meine Familie", "Meine Wohnung", "Ich bin unsicher"]],
+        ["topic", "Welches Thema klingt fuer Sie gerade wichtig?", ["Unfall", "Leben", "Rechtsschutz", "Hausrat", "Krankenkasse"]],
+        ["worry", "Was soll auf keinen Fall passieren?", "textarea", "z. B. hohe Kosten, Streit, Familie ohne Schutz"],
+        ["simple", "Was soll am Ende einfacher fuer Sie sein?", "textarea", "z. B. wissen, was ich brauche und was nicht"]
+      ]
+    },
+    wechsel: {
+      tag: "Auto wechseln",
+      title: "Das naechste Auto planen",
+      intro: "Wenn sich Ihr Leben veraendert hat, schauen wir, ob und wie ein Wechsel sinnvoll vorbereitet werden kann.",
+      questions: [
+        ["why", "Warum denken Sie ueber ein anderes Auto nach?", ["Zu klein", "Zu teuer", "Andere Arbeit", "Mehr Komfort", "Anderer Grund"]],
+        ["current", "Welches Auto fahren Sie jetzt?", "text", "Marke, Modell, ungefaehres Baujahr"],
+        ["wish", "Was soll beim naechsten Auto besser sein?", "textarea", "z. B. weniger Rate, mehr Platz, neueres Modell"],
+        ["time", "Wann waere ein Wechsel interessant?", ["Sofort", "In 1-3 Monaten", "Spaeter", "Ich moechte nur pruefen"]]
+      ]
+    },
+    firma: {
+      tag: "Gewerbe & Firma",
+      title: "Ihre Firma besser aufstellen",
+      intro: "Wir schauen, ob Auto, Leasing, Versicherung oder Steuer-Themen zu Ihrem Business-Alltag passen.",
+      questions: [
+        ["status", "Was beschreibt Sie am besten?", ["Ich habe Gewerbe", "Ich plane Gewerbe", "Ich habe eine Firma", "Ich bin unsicher"]],
+        ["need", "Wo brauchen Sie zuerst Ordnung?", ["Auto fuer Firma", "Leasing", "Versicherung", "Steuern", "Finanzierung"]],
+        ["business", "Was machen Sie beruflich?", "text", "z. B. Transport, Bau, Pflege, Dienstleistung"],
+        ["result", "Was waere ein gutes Ergebnis fuer Sie?", "textarea", "z. B. wissen, welche Auto-Loesung steuerlich passt"]
+      ]
+    },
+    alles: {
+      tag: "Gemeinsame Sichtung",
+      title: "Einmal alles sortieren",
+      intro: "Wenn Sie nicht wissen, wo Sie anfangen sollen, ist das vollkommen okay. Wir sortieren Ihre Themen gemeinsam.",
+      questions: [
+        ["feels", "Was fuehlt sich gerade am dringendsten an?", ["Versicherung", "Steuern", "Kosten", "Firma", "Ich weiss es nicht"]],
+        ["month", "Was wuerde Ihren Alltag diesen Monat leichter machen?", "textarea", "z. B. weniger Kosten, mehr Ordnung, klare Antwort"],
+        ["already", "Was haben Sie schon mit Pewne Auto gemacht?", ["Auto finanziert", "Auto gekauft", "Versicherung", "Ich bin Bestandskunde"]],
+        ["next", "Was waere fuer Sie ein guter erster Schritt?", "textarea", "z. B. kurzes Telefonat, Unterlagen pruefen, WhatsApp"]
+      ]
+    }
+  };
+
+  const buttons = document.querySelectorAll("[data-topic]");
+  const flow = document.getElementById("fragen");
+  const topicTag = document.getElementById("topicTag");
+  const topicTitle = document.getElementById("topicTitle");
+  const topicIntro = document.getElementById("topicIntro");
+  const topicInput = document.getElementById("topicInput");
+  const questions = document.getElementById("questions");
+  const form = document.getElementById("serviceForm");
+  const summary = document.getElementById("summary");
+  const whatsAppLink = document.getElementById("whatsAppLink");
+
+  function fieldMarkup(q){
+    const [name,label,typeOrOptions,placeholder] = q;
+    if(Array.isArray(typeOrOptions)){
+      return `<div class="field full"><label>${label}</label><div class="radio-grid">${typeOrOptions.map((option, index) => `<label><input type="radio" name="${name}" value="${option}" ${index === 0 ? "required" : ""}> ${option}</label>`).join("")}</div></div>`;
+    }
+    if(typeOrOptions === "textarea"){
+      return `<div class="field full"><label for="${name}">${label}</label><textarea id="${name}" name="${name}" placeholder="${placeholder || ""}"></textarea></div>`;
+    }
+    return `<div class="field full"><label for="${name}">${label}</label><input id="${name}" name="${name}" placeholder="${placeholder || ""}"></div>`;
+  }
+
+  function chooseTopic(key){
+    const topic = topics[key] || topics.alles;
+    topicTag.textContent = topic.tag;
+    topicTitle.textContent = topic.title;
+    topicIntro.textContent = topic.intro;
+    topicInput.value = topic.tag;
+    questions.innerHTML = topic.questions.map(fieldMarkup).join("");
+    summary.classList.remove("show");
+    flow.classList.add("active");
+    flow.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => chooseTopic(button.dataset.topic));
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const lines = ["Dzien dobry Pewne Auto,", "chce skorzystac z pierwszej bezplatnej Sichtung.", ""];
+    for (const [key, value] of data.entries()) {
+      if(value) lines.push(`${key}: ${value}`);
+    }
+    lines.push("", "Prosze o kontakt i pierwszy konkretny krok.");
+    const message = lines.join("\n");
+    const text = encodeURIComponent(message);
+    navigator.clipboard?.writeText(message).catch(() => {});
+    whatsAppLink.href = `https://wa.me/qr/KWPAKCQ6JUOHF1?text=${text}`;
+    summary.classList.add("show");
+    summary.scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  window.addEventListener("scroll", () => {
+    document.body.classList.toggle("scrolled", window.scrollY > 520);
+  }, {passive:true});
+</script>
 </body>
 </html>
